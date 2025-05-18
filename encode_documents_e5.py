@@ -5,12 +5,13 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 from sentence_transformers import SentenceTransformer
-
 DOCUMENTS_DIR = 'data/documents/'
 QRELS_PATH = 'data/qrels.txt'
-SAVE_EMBEDDINGS_PATH = 'document_embeddings_e5_qrels.npy'
-SAVE_DOCIDS_PATH = 'document_ids_e5_qrels.npy'
-MODEL_NAME = 'intfloat/e5-large-v2'
+SAVE_EMBEDDINGS_PATH = 'document_embeddings_finetuned_qrels.npy'
+SAVE_DOCIDS_PATH = 'document_ids_finetuned.npy'
+
+# Model Specter
+MODEL_NAME = 'e5base-finetuned-model'
 BATCH_SIZE = 64
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -58,4 +59,4 @@ all_embeddings = np.vstack(all_embeddings)
 np.save(SAVE_EMBEDDINGS_PATH, all_embeddings)
 np.save(SAVE_DOCIDS_PATH, np.array(doc_ids))
 
-print("✅ Document embeddings saved successfully.")
+print("Document embeddings saved successfully.")

@@ -8,8 +8,10 @@ import time
 
 QUERIES_PATH = 'data/queries.txt'
 QRELS_PATH = 'data/qrels.txt'
-SAVE_EMBEDDINGS_PATH = 'document_embeddings_e5_qrels.npy'
-SAVE_DOCIDS_PATH = 'document_ids_e5_qrels.npy'
+SAVE_EMBEDDINGS_PATH = 'document_embeddings_finetuned_qrels.npy'
+SAVE_DOCIDS_PATH = 'document_ids_finetuned.npy'
+
+MODEL_NAME = 'e5base-finetuned-model'
 
 K = 200
 
@@ -20,7 +22,7 @@ print('Loading precomputed document embeddings...')
 document_embeddings = torch.tensor(np.load(SAVE_EMBEDDINGS_PATH)).to(device)
 doc_ids = np.load(SAVE_DOCIDS_PATH).astype(str)
 
-model = SentenceTransformer('intfloat/e5-large-v2', device=device)
+model = SentenceTransformer(MODEL_NAME, device=device)
 
 queries = pd.read_csv(QUERIES_PATH, sep='\t', names=['qid', 'query'])
 qrels = pd.read_csv(QRELS_PATH, sep=' ', names=['qid', 'iter', 'docid', 'relevance'])
@@ -55,7 +57,7 @@ results_df = pd.DataFrame(results)
 results_df.to_csv('dense_results_top50.csv', index=False)
 print("Dense retrieval completed.")
 
-# reranker.py (cross-encoder reranker)
+
 import pandas as pd
 import numpy as np
 import json
